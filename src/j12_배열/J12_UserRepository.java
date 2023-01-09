@@ -6,7 +6,7 @@ public class J12_UserRepository {
 	
 	private J12_User[] userTable;
 
-	public J12_UserRepository(J12_User[] userTable) {;
+	public J12_UserRepository(J12_User[] userTable) {
 		this.userTable = userTable;
 	}
 	
@@ -41,6 +41,28 @@ public class J12_UserRepository {
 		}
 	}
 	
+	public J12_User findUserByUsername(String username) {
+		
+		J12_User user = null;
+		
+		for(J12_User u : userTable) {
+			if(u == null) {
+				System.out.println("존재하지 않는 사용자 입니다.");
+				continue;
+			}
+		}
+		
+		for(J12_User u : userTable) {
+			if(u.getUsername().equals(username)) {
+				user = u;
+				break;
+			}
+		}
+		
+		return user;
+	}
+	
+
 	
 	
 }

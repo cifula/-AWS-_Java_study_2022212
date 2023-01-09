@@ -15,7 +15,6 @@ public class J12_User {
 	
 	// alt + shift + s
 	public J12_User(String username, String password, String name, String email) {
-		super();
 		this.username = username;
 		this.password = password;
 		this.name = name;
