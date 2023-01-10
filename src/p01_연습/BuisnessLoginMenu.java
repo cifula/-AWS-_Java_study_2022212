@@ -1,0 +1,17 @@
+package p01_연습;
+
+public class BuisnessLoginMenu extends Menu {
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean menu(char select) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}
