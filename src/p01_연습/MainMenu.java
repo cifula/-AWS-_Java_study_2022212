@@ -1,14 +1,16 @@
 package p01_연습;
 
+import p01_연습.ForCustomer.CustomerMenu;
+import p01_연습.ForHost.HostLoginMenu;
+
 public class MainMenu extends Menu {
 
 	@Override
 	public void show() {
 		System.out.println("==== << 메인 메뉴 >> ====");
-		System.out.println("1. 회원 로그인");
-		System.out.println("2. 비회원 주문");
-		System.out.println("3. 사업자 로그인");
-		System.out.println("4. 회원가입");
+		System.out.println("1. 주문하기");
+		System.out.println("2. 사업자 로그인");
+		System.out.println("=========================");
 		System.out.println();
 	}
 	
@@ -19,35 +21,22 @@ public class MainMenu extends Menu {
 		if(isExit(select)) {
 			flag = false;
 			return flag;
-		}
-		
-		while(flag) {
+		} else {
 			if(select == '1') {
-				RunMenu run = new RunMenu(new GeneralLoginMenu());
+				RunMenu run = new RunMenu(new CustomerMenu());
 				run.run();
 			} else if(select == '2') {
-				RunMenu run = new RunMenu(new NotLoginMenu());
-				run.run();
-			} else if(select == '2') {
-				RunMenu run = new RunMenu(new BuisnessLoginMenu());
-				run.run();
-			} else if(select == '2') {
-				RunMenu run = new RunMenu(new RegisterUserMenu());
+				RunMenu run = new RunMenu(new HostLoginMenu());
 				run.run();
 			} else {
 				System.out.println(inputErrorMessage());
 			}
 		}
-		
 		return flag;
 	}
 	
 	private boolean isExit(char select) {
 		return select == 'q' || select == 'Q';
-	}
-	
-	private boolean isBack(char select) {
-		return select == 'b' || select == 'B';
 	}
 	
 	private String inputErrorMessage() {

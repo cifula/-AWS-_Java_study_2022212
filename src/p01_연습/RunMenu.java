@@ -35,6 +35,7 @@ public class RunMenu {
 		char select = '\0';
 		System.out.print("입력: ");
 		select = scanner.next().charAt(0);
+		scanner.nextLine();
 		return select;
 	}
 

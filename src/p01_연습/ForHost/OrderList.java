@@ -1,6 +1,8 @@
-package p01_연습;
+package p01_연습.ForHost;
 
-public class NotLoginMenu extends Menu {
+import p01_연습.Menu;
+
+public class OrderList extends Menu {
 
 	@Override
 	public void show() {

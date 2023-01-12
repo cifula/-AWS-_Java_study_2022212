@@ -1,11 +1,13 @@
-package p01_연습;
+package p01_연습.ForHost;
 
-public class RegisterUserMenu extends Menu {
+import p01_연습.Menu;
+
+public class DelProduct extends Menu {
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
