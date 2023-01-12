@@ -6,8 +6,9 @@ public class J10_StudentMain {
 		J10_Student s1 = new J10_Student("박성진", 29);
 		
 		s1.printInfo();
+
 		
-		s1.name = "김준일";
+		s1.Test();
 	
 	}
 }

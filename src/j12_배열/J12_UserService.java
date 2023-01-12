@@ -265,7 +265,7 @@ public class J12_UserService {
 	
 	private boolean comparePassword(String prePassword, String nextPassword) {
 		return prePassword.equals(nextPassword);
-		}
+	}
 	
 	private boolean isExit(char select) {
 		return select == 'q' || select == 'Q';

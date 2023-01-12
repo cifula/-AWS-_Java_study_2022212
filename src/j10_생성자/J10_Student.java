@@ -26,5 +26,9 @@ public class J10_Student {
 			System.out.println("학생 이름: " + name);
 			System.out.println("학생의 나이: " + age);
 		}
+		
+		public void Test() {
+			System.out.println(name);
+		}
 
 }

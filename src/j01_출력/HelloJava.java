@@ -1,5 +1,7 @@
 package j01_출력;
 
+import j17_스태틱.싱글톤.KIA;
+
 public class HelloJava {
 	// tab 들여쓰기
 	
@@ -23,12 +25,13 @@ public class HelloJava {
 	// 프로그램의 시작점
 	public static void main(String[] args) {
 		//System.out: 표준 출력, 콘솔에 출력됨
-		System.out.print("Hello, Java!!"); //데이터를 출력해라
+		System.out.println("Hello, Java!!"); //데이터를 출력해라
 		System.out.println("이름: 박성진"); //한줄의 문자열을 출력후 끝에 줄바꿈을 해라.
 		System.out.println("주소: 부산 부산진구 부전동");
 		System.out.println("연락처: 010-5555-1111");
 		System.out.println("수업: AWS기반 공공빅데이터 활용 웹개발자 양성");
 		
+		KIA.getInstance().printCompanyName();
 	}
 
 }
