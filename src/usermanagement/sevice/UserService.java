@@ -36,7 +36,7 @@ public class UserService {
 	}
 	
 	private boolean duplicatedUsername(String username) {
-		return UserRepository.findUserByUsername(username) != null;
+		return repository.findUserByUsername(username) != null;
 	}
 
 }
