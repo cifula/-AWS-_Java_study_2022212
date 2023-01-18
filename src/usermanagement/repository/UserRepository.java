@@ -24,6 +24,7 @@ public class UserRepository {
 		userDataList = new ArrayList<>();
 		userDataList.add(User.builder()
 				.username("aaa")
+
 				.password(BCrypt.hashpw("1234", BCrypt.gensalt()))
 				.name("김준일")
 				.email("aaa@gmail.com")

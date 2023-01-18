@@ -18,8 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import usermanagement.entity.LoginInstance;
+import usermanagement.entity.User;
 import usermanagement.sevice.UserService;
 
 public class UserManagementFrame extends JFrame {
@@ -34,6 +38,7 @@ public class UserManagementFrame extends JFrame {
 	private JTextField registerPasswordField;
 	private JTextField registerNameField;
 	private JTextField registerEmailField;
+
 
 
 	public static void main(String[] args) {
@@ -72,6 +77,16 @@ public class UserManagementFrame extends JFrame {
 		JPanel registerPanel = new JPanel();
 		mainPanel.add(registerPanel, "registerPanel");
 		registerPanel.setLayout(null);
+		
+		JPanel testPanel = new JPanel();
+		testPanel.setLayout(null);
+		mainPanel.add(testPanel, "testPanel");
+		
+		JLabel testText = new JLabel("");
+		testText.setHorizontalAlignment(SwingConstants.CENTER);
+		testText.setFont(new Font("D2Coding", Font.BOLD, 20));
+		testText.setBounds(0, 0, 250, 70);
+		testPanel.add(testText);
 		
 		JLabel signinLink = new JLabel("Sign in");
 		signinLink.addMouseListener(new MouseAdapter() {
@@ -181,12 +196,16 @@ public class UserManagementFrame extends JFrame {
 		loginButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				JsonObject loginUser = new JsonObject();
-				loginUser.addProperty("usernameAndEmail", usernameField.getText());
-				loginUser.addProperty("password", passwordField.getText());
+				System.out.println("로그인 요청!!");
+				JsonObject userJson = new JsonObject();
+				userJson.addProperty("username", usernameField.getText());
+				userJson.addProperty("password", passwordField.getText());
 				
+
 				UserService userService = UserService.getInstance();
-				Map<String, String> response = userService.authorize(loginUser.toString());
+				
+				Map<String, String> response = userService.login(userJson.toString());
+
 				
 				if(response.containsKey("error")) {
 					JOptionPane.showMessageDialog(null,response.get("error"), "error", JOptionPane.ERROR_MESSAGE);
@@ -194,7 +213,12 @@ public class UserManagementFrame extends JFrame {
 				}
 				
 				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
+
+				mainCard.show(mainPanel, "testPanel");
+				testText.setText(LoginInstance.getInstance().getUserData().getName() + "님 반갑습니다.");
+
 				clearField(loginFields);
+
 			}
 		});
 		loginButton.setBounds(40, 330, 300, 40);
@@ -253,8 +277,7 @@ public class UserManagementFrame extends JFrame {
 		loginPanel.add(forgotPasswordLink);
 		
 		loginFields.add(usernameField);
-		loginFields.add(passwordField);
-		
+		loginFields.add(passwordField);		
 		
 		registerFields.add(registerUsernameField);
 		registerFields.add(registerPasswordField);
