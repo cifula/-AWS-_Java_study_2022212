@@ -178,6 +178,12 @@ public class UserManagementFrame extends JFrame {
 		registerPanel.add(registerEmailLabel);
 		
 		JButton loginButton = new JButton("LOGIN");
+		loginButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("로그인 요청!!");
+			}
+		});
 		loginButton.setBounds(40, 330, 300, 40);
 		loginPanel.add(loginButton);
 		
