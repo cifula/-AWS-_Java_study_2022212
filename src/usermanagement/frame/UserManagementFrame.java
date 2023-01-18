@@ -178,6 +178,25 @@ public class UserManagementFrame extends JFrame {
 		registerPanel.add(registerEmailLabel);
 		
 		JButton loginButton = new JButton("LOGIN");
+		loginButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JsonObject loginUser = new JsonObject();
+				loginUser.addProperty("usernameAndEmail", usernameField.getText());
+				loginUser.addProperty("password", passwordField.getText());
+				
+				UserService userService = UserService.getInstance();
+				Map<String, String> response = userService.authorize(loginUser.toString());
+				
+				if(response.containsKey("error")) {
+					JOptionPane.showMessageDialog(null,response.get("error"), "error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
+				clearField(loginFields);
+			}
+		});
 		loginButton.setBounds(40, 330, 300, 40);
 		loginPanel.add(loginButton);
 		

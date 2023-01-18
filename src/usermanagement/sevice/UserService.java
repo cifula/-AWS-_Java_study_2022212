@@ -67,10 +67,36 @@ public class UserService {
 		return response;
 	}
 	
-	public Map<String, String> Login(String userJson) {
+	public Map<String, String> authorize(String loginUserJson) {
+		Map<String, String> loginUser = gson.fromJson(loginUserJson, Map.class);
+		
 		Map<String, String> response = new HashMap<>();
 		
+		for(Entry<String, String> entry : loginUser.entrySet()) {
+			if(entry.getValue().isBlank()) {
+				response.put("error", entry.getKey() + "은(는) 공백일 수 없습니다.");
+				return response;
+			}
+		}
 		
+		
+		String usernameAndEmail = loginUser.get("usernameAndEmail");
+		
+		User user = repository.findUserByUsername(usernameAndEmail);
+		if(user == null) {
+			user = repository.findUserByEmail(usernameAndEmail);
+			if(user == null) {
+				response.put("error", "사용자 정보를 확인해주세요");
+				return response;
+			}
+		}
+		
+		if(!BCrypt.checkpw(loginUser.get("password"), user.getPassword())) {
+			response.put("error", "사용자 정보를 확인해주세요");
+			return response;
+		}
+		
+		response.put("ok", user.getName() + "님 환영합니다.");
 		return response;
 	}
 	
