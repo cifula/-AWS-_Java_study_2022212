@@ -1,28 +1,37 @@
 package usermanagement.frame;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import com.google.gson.JsonObject;
+
+import usermanagement.sevice.UserService;
 
 public class UserManagementFrame extends JFrame {
 
+	List<JTextField> loginFields;
+	List<JTextField> registerFields;
 	private CardLayout mainCard;
 	private JPanel mainPanel;
 	private JTextField usernameField;
 	private JTextField passwordField;
 	private JTextField registerUsernameField;
-	private JTextField registerPasswordField2;
+	private JTextField registerPasswordField;
 	private JTextField registerNameField;
 	private JTextField registerEmailField;
 
@@ -39,9 +48,12 @@ public class UserManagementFrame extends JFrame {
 			}
 		});
 	}
-
-
+	
 	public UserManagementFrame() {
+		loginFields = new ArrayList<>();
+		registerFields = new ArrayList<>();
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
 		mainPanel = new JPanel();
@@ -66,6 +78,7 @@ public class UserManagementFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				mainCard.show(mainPanel, "loginPanel");
+				clearField(loginFields);
 			}
 		});
 		signinLink.setFont(new Font("굴림", Font.BOLD, 12));
@@ -80,11 +93,11 @@ public class UserManagementFrame extends JFrame {
 		registerUsernameField.setBounds(40, 140, 300, 35);
 		registerPanel.add(registerUsernameField);
 		
-		registerPasswordField2 = new JTextField();
-		registerPasswordField2.setHorizontalAlignment(SwingConstants.CENTER);
-		registerPasswordField2.setColumns(10);
-		registerPasswordField2.setBounds(40, 200, 300, 35);
-		registerPanel.add(registerPasswordField2);
+		registerPasswordField = new JTextField();
+		registerPasswordField.setHorizontalAlignment(SwingConstants.CENTER);
+		registerPasswordField.setColumns(10);
+		registerPasswordField.setBounds(40, 200, 300, 35);
+		registerPanel.add(registerPasswordField);
 		
 		registerNameField = new JTextField();
 		registerNameField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -169,7 +182,33 @@ public class UserManagementFrame extends JFrame {
 		loginPanel.add(loginButton);
 		
 		JButton registerButton = new JButton("REGISTER");
-		registerButton.setBounds(40, 370, 300, 40);
+		registerButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JsonObject userJson = new JsonObject();
+				userJson.addProperty("username", registerUsernameField.getText());
+				userJson.addProperty("password", registerPasswordField.getText());
+				userJson.addProperty("name", registerNameField.getText());
+				userJson.addProperty("email", registerEmailField.getText());
+				
+				System.out.println(userJson.toString());
+				
+				UserService userService = UserService.getInstance();
+				
+				Map<String, String> response = userService.register(userJson.toString());
+				
+				if(response.containsKey("error")) {
+					JOptionPane.showMessageDialog(null,response.get("error"), "error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
+				mainCard.show(mainPanel, "loginPanel");
+				clearField(registerFields);
+
+			}
+		});
+		registerButton.setBounds(40, 375, 300, 40);
 		registerPanel.add(registerButton);
 		
 		JLabel signupDesc = new JLabel("Don't have an account?");
@@ -194,6 +233,24 @@ public class UserManagementFrame extends JFrame {
 		forgotPasswordLink.setBounds(120, 415, 150, 20);
 		loginPanel.add(forgotPasswordLink);
 		
-
+		loginFields.add(usernameField);
+		loginFields.add(passwordField);
+		
+		
+		registerFields.add(registerUsernameField);
+		registerFields.add(registerPasswordField);
+		registerFields.add(registerNameField);
+		registerFields.add(registerEmailField);
+		
+	}
+	
+	private void clearField(List<JTextField> texFields) {
+		for(JTextField field : texFields) {
+			if(field.getText().isEmpty()) {
+				continue;
+			}
+			field.setText("");
+		}
+		
 	}
 }
