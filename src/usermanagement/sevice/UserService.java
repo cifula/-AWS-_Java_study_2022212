@@ -10,6 +10,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import usermanagement.entity.LoginInstance;
 import usermanagement.entity.User;
 import usermanagement.repository.UserRepository;
 
@@ -67,9 +68,34 @@ public class UserService {
 		return response;
 	}
 	
-	public Map<String, String> Login(String userJson) {
+	public Map<String, String> login(String userJson) {
 		Map<String, String> response = new HashMap<>();
 		
+		Map<String, String> userMap = gson.fromJson(userJson, Map.class);
+		for(Entry<String, String> userEntry : userMap.entrySet()) {
+			if(userEntry.getValue().isBlank()) {
+				response.put("error", userEntry.getKey() + "은(는) 공백일 수 없습니다.");
+				return response;
+			}
+		}
+		
+		User user = gson.fromJson(userJson, User.class);
+		
+		System.out.println(user);
+		
+		if(duplicatedUsername(user.getUsername())) {
+			response.put("error", "사용자 정보가 잘못되었습니다.");
+			return response;
+		}
+		
+		User user2 = repository.findUserByUsername(user.getUsername());
+
+		if(!BCrypt.checkpw(user.getPassword(), user2.getPassword())) {
+			response.put("error", "사용자 정보가 잘못되었습니다.");
+		}
+		
+		LoginInstance.getInstance().setUserData(user2);
+		response.put("ok", "로그인에 성공하셨습니다.");
 		
 		return response;
 	}
