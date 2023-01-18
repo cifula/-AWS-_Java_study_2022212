@@ -68,17 +68,20 @@ public class UserService {
 		return response;
 	}
 	
-	public Map<String, String> login(String userJson) {
+
+	public Map<String, String> authorize(String loginUserJson) {
+		Map<String, String> loginUser = gson.fromJson(loginUserJson, Map.class);
+		
 		Map<String, String> response = new HashMap<>();
 		
-		Map<String, String> userMap = gson.fromJson(userJson, Map.class);
-		for(Entry<String, String> userEntry : userMap.entrySet()) {
-			if(userEntry.getValue().isBlank()) {
-				response.put("error", userEntry.getKey() + "은(는) 공백일 수 없습니다.");
+		for(Entry<String, String> entry : loginUser.entrySet()) {
+			if(entry.getValue().isBlank()) {
+				response.put("error", entry.getKey() + "은(는) 공백일 수 없습니다.");
 				return response;
 			}
 		}
 		
+
 		User user = gson.fromJson(userJson, User.class);
 		
 		System.out.println(user);
@@ -96,7 +99,9 @@ public class UserService {
 		
 		LoginInstance.getInstance().setUserData(user2);
 		response.put("ok", "로그인에 성공하셨습니다.");
+
 		
+		response.put("ok", user.getName() + "님 환영합니다.");
 		return response;
 	}
 	

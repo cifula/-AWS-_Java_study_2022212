@@ -205,6 +205,7 @@ public class UserManagementFrame extends JFrame {
 				UserService userService = UserService.getInstance();
 				
 				Map<String, String> response = userService.login(userJson.toString());
+
 				
 				if(response.containsKey("error")) {
 					JOptionPane.showMessageDialog(null,response.get("error"), "error", JOptionPane.ERROR_MESSAGE);
@@ -212,13 +213,12 @@ public class UserManagementFrame extends JFrame {
 				}
 				
 				JOptionPane.showMessageDialog(null, response.get("ok"),"ok",JOptionPane.INFORMATION_MESSAGE);
+
 				mainCard.show(mainPanel, "testPanel");
 				testText.setText(LoginInstance.getInstance().getUserData().getName() + "님 반갑습니다.");
 
 				clearField(loginFields);
-				
-				
-				
+
 			}
 		});
 		loginButton.setBounds(40, 330, 300, 40);
