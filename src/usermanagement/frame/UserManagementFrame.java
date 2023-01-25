@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 
 import com.google.gson.JsonObject;
 
-import usermanagement.sevice.UserService;
+import usermanagement.service.UserService;
 
 public class UserManagementFrame extends JFrame {
 

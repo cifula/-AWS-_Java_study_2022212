@@ -10,7 +10,7 @@ public class LoginInstance {
 	
 
 	private LoginInstance() {
-		userData = new User(null, null, null, null);
+		userData = new User(0 ,null, null, null, null);
 	}
 
 	public static LoginInstance getInstance() {
@@ -28,6 +28,7 @@ public class LoginInstance {
 	public void setUserData(User userData) {
 		this.userData = userData;
 	}
+	
 	
 	
 	
