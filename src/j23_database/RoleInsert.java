@@ -36,7 +36,7 @@ public class RoleInsert {
 			
 //			DB에서 생성된 KEY(role_id)를 변수 rs에 저장한다.
 			ResultSet rs = pstmt.getGeneratedKeys();
-			System.out.println(rs.toString());
+			
 			if(rs.next()) {
 				newKey = rs.getInt(1);
 			}

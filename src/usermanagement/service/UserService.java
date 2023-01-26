@@ -1,7 +1,9 @@
 package usermanagement.service;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,8 +12,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import usermanagement.entity.RoleDtl;
 import usermanagement.entity.User;
 import usermanagement.repository.UserRepository;
+import usermanagement.repository.UserRepositoryArrayList;
 
 public class UserService {
 	
@@ -45,8 +49,6 @@ public class UserService {
 		}
 		
 		User user = gson.fromJson(userJson, User.class);
-		System.out.println("서비스에 넘어옴! User 객체로 변환");
-		System.out.println(user);
 		
 		if(duplicatedUsername(user.getUsername())) {
 			response.put("error", "이미 사용중인 사용자 이름입니다.");
@@ -59,11 +61,22 @@ public class UserService {
 		}
 		
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-		System.out.println(user);
+
 		repository.saveUser(user);
+		RoleDtl roledtl = RoleDtl.builder()
+				.roleId(3)
+				.userId(user.getUserId())
+				.build();
+		
+		repository.saveRoleDtl(roledtl);
+		
+		List<RoleDtl> roleDtls = new ArrayList<>();
+		
+		roleDtls.add(roledtl);
 		
 		response.put("ok", "회원가입 성공.");
-		
+		user.setRoleDtls(roleDtls);
+		System.out.println(user);
 		return response;
 	}
 	

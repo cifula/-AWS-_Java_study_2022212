@@ -210,7 +210,6 @@ public class UserManagementFrame extends JFrame {
 				userJson.addProperty("name", registerNameField.getText());
 				userJson.addProperty("email", registerEmailField.getText());
 				
-				System.out.println(userJson.toString());
 				
 				UserService userService = UserService.getInstance();
 				
