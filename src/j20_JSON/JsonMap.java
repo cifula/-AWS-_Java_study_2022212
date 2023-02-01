@@ -24,6 +24,8 @@ public class JsonMap {
 		
 		String userJson = gson.toJson(user);
 		System.out.println(user);
+		
+		System.out.println("json");
 		System.out.println(userJson);
 		
 		Map<String, Object> userMap = gson.fromJson(userJson, Map.class);
